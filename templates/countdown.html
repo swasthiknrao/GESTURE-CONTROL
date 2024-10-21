@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to Tech Manthan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@600&display=swap');
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #000000;
+            overflow: hidden;
+            color: #e0e0e0;
+            perspective: 1000px;
+        }
+
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .college-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .college-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00a8ff;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 
+                0 0 10px rgba(0, 168, 255, 0.7),
+                0 0 20px rgba(0, 168, 255, 0.5),
+                0 0 30px rgba(0, 168, 255, 0.3);
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .college-name:hover {
+            transform: scale(1.05);
+            text-shadow: 
+                0 0 15px rgba(0, 168, 255, 0.8),
+                0 0 25px rgba(0, 168, 255, 0.6),
+                0 0 35px rgba(0, 168, 255, 0.4);
+        }
+
+        .department-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: #e0e0e0;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(224, 224, 224, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .college-name::before,
+        .college-name::after {
+            content: none;
+        }
+
+        .countdown-container {
+            text-align: center;
+            position: relative;
+            padding: 3rem;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5),
+                         0 0 30px rgba(0, 128, 255, 0.3),
+                         0 0 40px rgba(0, 128, 255, 0.2);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateZ(0) rotateX(0deg) rotateY(0deg); }
+            25% { transform: translateZ(20px) rotateX(5deg) rotateY(5deg); }
+            75% { transform: translateZ(20px) rotateX(-5deg) rotateY(-5deg); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        #countdown {
+            position: relative;
+            left :160px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 180px;
+            font-weight: bold;
+            color: #a0a0a000; /* Transparent color */
+            position: relative;
+            text-shadow: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            -webkit-text-stroke: 2px #00aaff00; /* Blue outline */
+        }
+
+        #countdown::before {
+            content: attr(data-text);
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            color: rgba(0, 0, 0, 0.3);
+            text-shadow: 
+                0 1px 0 #666,
+                0 2px 0 #555,
+                0 3px 0 #444,
+                0 4px 0 #333,
+                0 5px 0 #222,
+                0 6px 1px rgba(0,0,0,.1),
+                0 0 5px rgba(0,0,0,.1),
+                0 1px 3px rgba(0,0,0,.3),
+                0 3px 5px rgba(0,0,0,.2),
+                0 5px 10px rgba(0,0,0,.25),
+                0 10px 10px rgba(0,0,0,.2),
+                0 20px 20px rgba(0,0,0,.15);
+            -webkit-text-stroke: 0; /* Remove outline from shadow */
+        }
+
+        #countdown::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: rgba(0, 168, 255, 0.5); /* Semi-transparent blue */
+            filter: blur(8px);
+            -webkit-text-stroke: 0; /* Remove outline from glow */
+        }
+
+        .animate-countdown {
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.05) rotate(2deg); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(0, 128, 255, 0);
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: none;  /* Removed shadow from particles */
+        }
+
+        @keyframes particleAnimation {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+
+        .light {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 00px;
+            background: radial-gradient(circle at var(--x) var(--y), rgba(0,128,255,0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        #welcome-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 60px;
+            font-weight: bold;
+            color: #00a8ff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            text-shadow: 
+                0 0 10px rgba(0, 168, 255, 0.7),
+                0 0 20px rgba(0, 168, 255, 0.5),
+                0 0 30px rgba(0, 168, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 10px rgba(0, 168, 255, 0.7),
+                    0 0 20px rgba(0, 168, 255, 0.5),
+                    0 0 30px rgba(0, 168, 255, 0.3);
+            }
+            to {
+                text-shadow: 
+                    0 0 20px rgba(0, 168, 255, 0.8),
+                    0 0 30px rgba(0, 168, 255, 0.6),
+                    0 0 40px rgba(0, 168, 255, 0.4),
+                    0 0 50px rgba(0, 168, 255, 0.3),
+                    0 0 60px rgba(0, 168, 255, 0.2);
+            }
+        }
+
+        #welcome-text::before {
+            content: attr(data-text);
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            color: rgba(0, 168, 255, 0.3);
+            filter: blur(8px);
+        }
+
+        #welcome-text::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, rgba(0,128,255,0.1), transparent);
+            z-index: -2;
+            filter: blur(20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="static/logo.png" alt="Tech Manthan Logo" class="logo">
+        <div class="college-info">
+            <div class="college-name" data-text="Dr.B.B. Hegde First Grade College, Kundapura">Dr.B.B. Hegde First Grade College, Kundapura</div>
+            <div class="department-name">Department of Computer Applications</div>
+        </div>
+        <img src="static/clglogo.png" alt="College Logo" class="logo">
+    </div>
+    <div class="countdown-container">
+        <h1>Get ready for Tech Manthan 4.0!</h1>
+        <div id="countdown" class="animate-countdown" data-text="10">10</div>
+        <div class="light"></div> 
+    </div>
+    <div id="welcome-text" data-text="Welcome to Tech Manthan!">Welcome to Tech Manthan!</div>
+
+    <script>
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+        const container = document.querySelector('.countdown-container');
+        const light = document.querySelector('.light');
+        const welcomeText = document.getElementById('welcome-text');
+        const websiteUrl = "https://techmanthan.bbhegdecollege.com";
+
+        function updateCountdown() {
+            countdownElement.textContent = countdown;
+            countdownElement.setAttribute('data-text', countdown);
+            countdown--;
+
+            if (countdown < 0) {
+                countdownElement.style.display = 'none';
+                container.style.display = 'none';
+                welcomeText.style.opacity = '1';
+                setTimeout(() => {
+                    window.location.href = websiteUrl;
+                }, 2000); // Wait 2 seconds before redirecting
+            } else {
+                createParticles();
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        function createParticles() {
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+
+                const x = (Math.random() - 0.5) * window.innerWidth;
+                const y = (Math.random() - 0.5) * window.innerHeight;
+                particle.style.setProperty('--x', `${x}px`);
+                particle.style.setProperty('--y', `${y}px`);
+
+                particle.style.left = `${Math.random() * window.innerWidth}px`;
+                particle.style.top = `${Math.random() * window.innerHeight}px`;
+
+                particle.style.animation = `particleAnimation ${1 + Math.random() * 2}s ease forwards`;
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 3000);
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            light.style.setProperty('--x', `${x * 100}%`);
+            light.style.setProperty('--y', `${y * 100}%`);
+        });
+
+        updateCountdown();
+    </script>
+</body>
+</html>
