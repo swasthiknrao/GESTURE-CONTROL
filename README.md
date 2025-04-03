@@ -21,7 +21,7 @@ A Python-based web application that uses hand gestures to control website naviga
 1. Clone the repository:
 ```bash
 git clone https://github.com/swasthiknrao/GESTURE-CONTROL
-cd swasthiknrao/GESTURE-CONTROL
+cd GESTURE-CONTROL
 ```
 
 2. Install the required dependencies:
